@@ -1,7 +1,5 @@
 parameters:
   - name: TARGET_ENV
-  
-  - name: APP_NAME
 
 jobs:
 - deployment: 'DeployTo${{parameters.TARGET_ENV}}'
@@ -16,13 +14,13 @@ jobs:
       deploy:
         steps:
       
-        # - task: SSH@0
+        # - task: Bash@3
         #   displayName: Download latest docker image form ACR
         #   inputs:
         #     targetType: 'inline'
         #     script: 'docker pull bootcampdockercr.azurecr.io/weighttracker:latest'
         
-        - task: SSH@0
+        - task: Bash@3
           displayName: Docker run
           inputs:
             targetType: 'inline'
