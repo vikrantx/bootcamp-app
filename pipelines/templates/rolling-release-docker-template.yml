@@ -24,5 +24,8 @@ jobs:
           displayName: Docker run
           inputs:
             targetType: 'inline'
-            script: 'docker run -d -p 8080:8080 --name wt-app --mount type=bind,source=/mount/data/.env,target=/home/weight-tracker/.env  bootcampdockercr.azurecr.io/weighttracker:latest'
+            script: |
+             'docker stop $(docker ps -a -q)'
+             'docker rm $(docker ps -a -q)'
+             'docker run -d -p 8080:8080 --name wt-app --mount type=bind,source=/mount/data/.env,target=/home/weight-tracker/.env  bootcampdockercr.azurecr.io/weighttracker:latest'
 
