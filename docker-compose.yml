@@ -1,0 +1,28 @@
+#Docker Compose file for postgres and weight-tracker app
+version: '1.0'
+services:
+  postgres:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=pgadmin
+      - POSTGRES_PASSWORD=secret
+    ports:
+      - '5432:5432'
+    volumes: 
+      - postgres:/var/lib/postgresql/data
+  
+  weight-tracker:
+    container_name: wt-app
+    image: bootcampdockercr.azurecr.io/weighttracker:latest
+    restart: always
+    volumes:
+      - /home/azureuser/mount/home/.env:/home/weight-tracker/.env:bind
+    depends_on:
+      - postgres
+    ports:
+      - 8080:8080
+
+volumes:
+  postgres:
+    driver: local
