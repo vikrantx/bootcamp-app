@@ -1,5 +1,5 @@
 #Docker Compose file for postgres and weight-tracker app
-version: '1.0'
+version: '3.3'
 services:
   postgres:
     image: postgres:14.1-alpine
@@ -17,11 +17,14 @@ services:
     image: bootcampdockercr.azurecr.io/weighttracker:latest
     restart: always
     volumes:
-      - /home/azureuser/mount/home/.env:/home/weight-tracker/.env:bind
+      - type: bind
+        source: /home/azureuser/mount/.env
+        target: /home/weight-tracker/.env
     depends_on:
       - postgres
     ports:
       - 8080:8080
+    command: sh -c "npm install && npm run initdb && npm run dev"
 
 volumes:
   postgres:
