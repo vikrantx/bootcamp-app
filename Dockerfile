@@ -6,13 +6,9 @@ COPY . /home/weight-tracker
 
 WORKDIR /home/weight-tracker
 
-#COPY ./docker-entrypoint.sh /home/weight-tracker
+RUN npm install
 
-#RUN chmod +x docker-entrypoint.sh
-
-#RUN ./docker-entrypoint.sh
-
-#ENTRYPOINT ["./docker-entrypoint.sh"]
+RUN npm run initdb
 
 EXPOSE 8080
 
