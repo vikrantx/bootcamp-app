@@ -14,6 +14,8 @@ WORKDIR /home/weight-tracker
 
 #ENTRYPOINT ["./docker-entrypoint.sh"]
 
+RUN npm install
+
 EXPOSE 8080
 
 CMD ["npm", "run", "dev"]
