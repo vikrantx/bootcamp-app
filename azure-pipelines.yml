@@ -23,7 +23,7 @@ variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'df79fc9a-702a-45a6-9537-69ccbce65a46'
   imageRepository: 'weighttracker'
-  containerRegistry: 'bootcampdockercr.azurecr.io'
+  containerRegistry: 'vikrantdevops.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
   isFeature: $[contains(variables['Build.SourceBranch'], 'feature')]
