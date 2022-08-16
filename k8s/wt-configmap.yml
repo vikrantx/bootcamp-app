@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wt-configmap
+  labels:
+    app: wt-app
+data:
+  port: '80'
+  host: '0.0.0.0'
+  pg_host: '10.0.184.106'
+  pg_database: 'weight-tracker-db'
+  pg_port: '5432'
+  host_url: 'http://20.121.165.186:80'
+  okta_url: 'https://dev-91289822.okta.com'

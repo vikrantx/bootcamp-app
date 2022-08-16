@@ -1,0 +1,89 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: wt-app 
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: wt-app
+  template:
+    metadata:
+      labels:
+        app: wt-app 
+    spec:
+      containers:
+        - name: wt-app 
+          image: vikrantdevops.azurecr.io/weighttracker:latest
+          ports:
+          - containerPort: 80
+          resources:
+              requests:
+                cpu: 500m
+                memory: 256Mi
+              limits:
+                cpu: "1"
+                memory: 512M
+          env:
+          - name: HOST
+            valueFrom:
+              configMapKeyRef:
+                name: wt-configmap
+                key: host
+          - name: HOST_URL
+            valueFrom:
+              configMapKeyRef:
+                name: wt-configmap
+                key: host_url
+          - name: PORT
+            valueFrom:
+              configMapKeyRef:
+                name: wt-configmap
+                key: port
+          - name: PGHOST
+            valueFrom:
+              configMapKeyRef:
+                name: wt-configmap
+                key: pg_host
+          - name: PGUSERNAME
+            valueFrom:
+              secretKeyRef:
+                name: wt-secrets
+                key: pgusername
+          - name: PGDATABASE
+            valueFrom:
+              configMapKeyRef:
+                name: wt-configmap
+                key: pg_database
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: wt-secrets
+                key: pgpassword
+          - name: PGPORT
+            valueFrom:
+              configMapKeyRef:
+                name: wt-configmap
+                key: pg_port
+
+          - name: COOKIE_ENCRYPT_PWD
+            valueFrom:
+              secretKeyRef:
+                name: wt-secrets
+                key: cookie_encrypt_pwd
+
+          - name: OKTA_ORG_URL
+            valueFrom:
+              configMapKeyRef:
+                name: wt-configmap
+                key: okta_url
+          - name: OKTA_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: wt-secrets
+                key: okta_client_id
+          - name: OKTA_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: wt-secrets
+                key: okta_client_secret
