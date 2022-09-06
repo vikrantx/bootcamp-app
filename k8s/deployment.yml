@@ -1,0 +1,52 @@
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: wt-tracker
+    namespace: ns-wt
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        app: wt-tracker
+    template:
+      metadata:
+        labels:
+          app: wt-tracker
+      spec:
+        nodeSelector:
+          beta.kubernetes.io/os: linux
+        containers:
+          - name: wt-tracker
+            image: vikrantdevops.azurecr.io/weighttracker:latest
+            ports:
+              - containerPort: 80
+                protocol: TCP
+            resources:
+              requests:
+                cpu: 500m
+                memory: 256Mi
+              limits:
+                cpu: "1"
+                memory: 512M
+            volumeMounts:
+              - mountPath: /home/azureuser/mount
+                name: wt-app-env
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: Always
+        restartPolicy: Always
+        volumes:
+          - name: wt-app-env
+            persistentVolumeClaim:
+              claimName: wt-pvc
+        terminationGracePeriodSeconds: 30
+        dnsPolicy: ClusterFirst
+        securityContext: {}
+        schedulerName: default-scheduler
+    strategy:
+      type: RollingUpdate
+      rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+    revisionHistoryLimit: 10
+    progressDeadlineSeconds: 600

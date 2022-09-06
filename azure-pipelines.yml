@@ -43,7 +43,7 @@ stages:
  # condition: and(succeeded(), eq(variables.isFeature, true))
   displayName: Build feature branch
   jobs:
-  - job: BuildI
+  - job: BuildCI
     displayName: Build Feature
     pool:
       vmImage: $(vmImageName)

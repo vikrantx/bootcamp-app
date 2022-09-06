@@ -6,11 +6,16 @@ metadata:
     type: local
     app: postgres
 spec:
-  storageClassName: manual
+  storageClassName: azuredisk-standard-retain
   capacity:
-    storage: 1Gi
+    storage: 2Gi
+  persistentVolumeReclaimPolicy: Retain
   accessModes:
     - ReadWriteMany
+  azureFile:
+    secretName: azure-fileshare-secret
+    shareName: db-data
+    readOnly: false
   hostPath:
     path: "/mnt/data"
 ---
@@ -20,10 +25,16 @@ metadata:
   name: postgres-pv-claim
   labels:
     app: postgres
+  annotations:
+    volume.beta.kubernetes.io/storage-class: ""
 spec:
-  storageClassName: manual
+  storageClassName: azuredisk-standard-retain
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 1Gi
+      storage: 400M
+  selector:
+    # To make sure we match the claim with the exact volume, match the label
+    matchLabels:
+      usage: postgres-pv-volume
